@@ -4,9 +4,13 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { BotModule } from './bot/bot.module';
+import { DbModule } from './db/db.module';
+import { TarotModule } from './tarot/tarot.module';
 
 @Module({
   imports: [
+    DbModule,
+    TarotModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

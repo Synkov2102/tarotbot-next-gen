@@ -32,7 +32,7 @@ export class AiService {
 
   // Метод для сохранения токена в файл
   private async saveTokenToFile(
-    token: string,
+    token: string | null,
     expiresAt: number,
   ): Promise<void> {
     const tokenData = { token, expiresAt };
@@ -89,7 +89,7 @@ export class AiService {
         this.token = response.data.access_token;
         this.tokenExpiresAt = response.data.expires_at; // Время истечения токена (timestamp)
 
-        await this.saveTokenToFile(this.token, this.tokenExpiresAt); // Сохраняем токен в файл
+        await this.saveTokenToFile(this.token, this.tokenExpiresAt ?? 0); // Сохраняем токен в файл
       }
     } catch (error) {
       throw new HttpException(
@@ -100,7 +100,8 @@ export class AiService {
   }
 
   // Умная функция для отправки запросов в GigaChat
-  async sendMessage(messages: any[]) {
+
+  async sendMessage(messages: unknown[]): Promise<any> {
     await this.ensureToken(); // Проверяем и обновляем токен
 
     try {

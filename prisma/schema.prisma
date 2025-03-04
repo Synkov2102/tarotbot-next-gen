@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Arcana {
+  major
+  minor
+}
+
+enum Suit {
+  wands
+  cups
+  swords
+  pentacles
+}
+
+enum Element {
+  fire
+  water
+  air
+  earth
+}
+
+model Card {
+  id                           String   @id @default(uuid()) // Уникальный идентификатор карты
+  name                         String // Название карты (например, "Смерть", "Император", "Тройка Кубков")
+  arcana                       Arcana // Тип карты: Старшие Арканы (major) или Младшие Арканы (minor)
+  suit                         Suit? // Масть карты (жезлы, чаши, мечи, пентакли). Для Старших Арканов - NULL
+  rank                         String? // Ранг карты. Для Младших: "Ace", "Two"... "King". Для Старших может быть число или название
+  order                        Int // Порядковый номер в колоде. Для Старших - от 0 до 21, для Младших - номер внутри масти
+  element                      Element? // Элемент карты: огонь, вода, воздух, земля
+  image_url                    String? // Ссылка на изображение карты
+  base_interpretation_upright  String? // Базовая интерпретация карты в прямом положении
+  base_interpretation_reversed String? // Базовая интерпретация карты в перевёрнутом положении
+  keywords_upright             String // JSON строка для массива ключевых слов прямого положения
+  keywords_reversed            String // JSON строка для массива ключевых слов перевёрнутого положения
+  astrological_association     String? // Астрологическая ассоциация: знак зодиака, планета или аспект
+  symbolism                    String? // Описание символики, заложенной в изображении и толковании карты
+}
