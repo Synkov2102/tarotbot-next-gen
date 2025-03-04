@@ -8,9 +8,12 @@ import { DbModule } from './db/db.module';
 import { TarotModule } from './tarot/tarot.module';
 
 @Module({
-  imports: [DbModule, TarotModule, ConfigModule.forRoot({
-    isGlobal: true,
-  }),
+  imports: [
+    DbModule,
+    TarotModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     HttpModule.registerAsync({
       useFactory: () => {
         // Отключаем проверку сертификатов - обходим сертификаты минцифры (Не безопасно по пока сойдет)
@@ -18,7 +21,8 @@ import { TarotModule } from './tarot/tarot.module';
         return {};
       },
     }),
-    BotModule,],
+    BotModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

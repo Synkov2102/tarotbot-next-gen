@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as TelegramBot from 'node-telegram-bot-api';
+import TelegramBot from 'node-telegram-bot-api';
 import { AiService } from 'src/ai/ai.service';
 
 @Injectable()
@@ -8,6 +8,9 @@ export class TelegramBotService {
   private bot: TelegramBot;
 
   constructor(private aiService: AiService) {
+    if (!this.token) {
+      throw new Error('TELEGRAM_BOT_TOKEN environment variable is not set');
+    }
     this.bot = new TelegramBot(this.token, { polling: true });
     this.initializeHandlers();
   }
