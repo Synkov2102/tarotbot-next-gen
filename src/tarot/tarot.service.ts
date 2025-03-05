@@ -8,12 +8,13 @@ export class TarotService {
   async getRandomCard() {
     const count = await this.db.card.count();
     const skip = Math.floor(Math.random() * count);
-    return await this.db.card.findMany({
+    const cards = await this.db.card.findMany({
       take: 5,
       skip: skip,
       orderBy: {
         id: 'asc',
       },
     });
+    return cards[0];
   }
 }
